@@ -1,0 +1,58 @@
+/*
+  Fast ADC Oscilloscope Firmware
+  Target board: Arduino Uno (ATmega328P)
+
+  Features:
+  - ~77 kSamples/s sampling rate
+  - Free-running ADC mode
+  - 8-bit binary data output for high-speed serial
+  - Designed for Python oscilloscope software
+*/
+
+void setup() {
+
+  // Fast serial communication
+  Serial.begin(1000000);
+
+  // Disable digital input buffer on A0 (reduces noise)
+  DIDR0 = (1 << ADC0D);
+
+  // Select AVcc reference and ADC channel A0
+  ADMUX = (1 << REFS0);
+
+  /*
+    ADCSRA configuration
+    ADEN  = enable ADC
+    ADATE = auto trigger enable (free running)
+    ADPS2 = prescaler bit → prescaler = 16
+  */
+
+  ADCSRA =
+      (1 << ADEN) |
+      (1 << ADATE) |
+      (1 << ADPS2);
+
+  // Free running mode
+  ADCSRB = 0;
+
+  // Start ADC conversions
+  ADCSRA |= (1 << ADSC);
+}
+
+void loop() {
+
+  // Wait until conversion finished
+  while (!(ADCSRA & (1 << ADIF)));
+
+  // Clear interrupt flag
+  ADCSRA |= (1 << ADIF);
+
+  // Read 10-bit ADC value
+  uint16_t sample = ADC;
+
+  // Convert to 8-bit for faster transfer
+  uint8_t output = sample >> 2;
+
+  // Send raw byte to PC
+  Serial.write(output);
+}
