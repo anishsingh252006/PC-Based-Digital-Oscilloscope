@@ -1,270 +1,221 @@
-Python Lab Instrument
-DIY Software Oscilloscope + Signal Generator + Spectrum Analyzer
+# Python Lab Instrument
 
-A Python-based virtual electronics laboratory instrument that combines a signal generator, oscilloscope, FFT spectrum analyzer, and waterfall spectrogram in a single GUI application.
+### DIY Software Oscilloscope + Signal Generator + Spectrum Analyzer
 
-The system generates signals through the PC audio output, samples them using Arduino ADC, and reconstructs the signal in Python for visualization and analysis.
+A Python-based virtual electronics laboratory instrument that combines a **signal generator, oscilloscope, FFT spectrum analyzer, and waterfall spectrogram** in a single GUI application.
 
-This project demonstrates digital signal processing, sampling theory, modulation techniques, and real-time signal reconstruction.
+The system generates signals through the **PC audio output**, samples them using **Arduino ADC**, and reconstructs the signal in Python for visualization and analysis.
 
-Features
-1. Signal Generator
+This project demonstrates **digital signal processing, sampling theory, modulation techniques, and real-time signal reconstruction**.
+
+---
+
+# Features
+
+## Signal Generator
 
 The software generator can produce multiple waveforms in real time.
 
 Supported waveforms
 
-Sine
-
-Square
-
-Triangle
-
-Sawtooth
-
-Noise
+* Sine
+* Square
+* Triangle
+* Sawtooth
+* Noise
 
 Adjustable parameters
 
-Frequency (1 – 5000 Hz)
+* Frequency (1 – 5000 Hz)
+* Amplitude
+* Waveform selection
 
-Amplitude
+Signals are generated using Python and played through the **PC sound card**.
 
-Waveform selection
+---
 
-Signals are generated using Python and played through the sound card.
+## Digital Modulation Support
 
-2. Digital Modulation Support
-
-The generator can simulate communication signals with modulation techniques.
+The generator can simulate communication signals using modulation techniques.
 
 Supported modulation
 
-AM (Amplitude Modulation)
+* AM (Amplitude Modulation)
+* FM (Frequency Modulation)
+* PM (Phase Modulation)
+* ASK (Amplitude Shift Keying)
+* FSK (Frequency Shift Keying)
+* BPSK (Binary Phase Shift Keying)
 
-FM (Frequency Modulation)
+This allows the instrument to demonstrate **basic digital communication systems**.
 
-PM (Phase Modulation)
+---
 
-ASK (Amplitude Shift Keying)
+# Oscilloscope Section
 
-FSK (Frequency Shift Keying)
+The oscilloscope receives sampled data from an **Arduino ADC via serial communication** and displays
 
-BPSK (Binary Phase Shift Keying)
+* Observed signal (sampled waveform)
+* Reconstructed signal
+* Generated reference signal
 
-This allows the instrument to demonstrate basic digital communication systems.
-
-Oscilloscope Section
-
-The oscilloscope receives sampled data from an Arduino ADC via serial communication and displays:
-
-Observed signal (sampled waveform)
-
-Reconstructed signal
-
-Generated reference signal
-
-Sampling rate used:
+Sampling rate used
 
 Arduino Sampling Rate ≈ 76.9 kHz
 
-Signals are streamed over high-speed serial communication (2 Mbps).
+Signals are streamed over **high-speed serial communication (2 Mbps)**.
 
-Signal Reconstruction
+---
 
-The sampled signal is reconstructed using DSP techniques:
+# Signal Reconstruction
 
-Normalization
+The sampled signal is reconstructed using DSP techniques
 
-Butterworth Low Pass Filtering
-
-Resampling
-
-Signal interpolation
+1. Normalization
+2. Butterworth Low Pass Filtering
+3. Resampling
+4. Signal interpolation
 
 Libraries used
 
-scipy.signal.butter
-
-scipy.signal.filtfilt
-
-scipy.signal.resample_poly
+* scipy.signal.butter
+* scipy.signal.filtfilt
+* scipy.signal.resample_poly
 
 This approximates the original analog waveform from sampled data.
 
-Spectrum Analyzer (FFT)
+---
 
-The system computes the Fast Fourier Transform (FFT) of the generated signal.
+# Spectrum Analyzer (FFT)
+
+The system computes the **Fast Fourier Transform (FFT)** of the generated signal.
 
 Features
 
-Real-time spectrum display
+* Real-time spectrum display
+* Frequency component visualization
+* Windowing using a **Hanning window**
 
-Frequency component visualization
+Useful for
 
-Windowing using Hanning window
+* Harmonic analysis
+* Signal bandwidth measurement
+* Modulation observation
 
-Useful for:
+---
 
-Harmonic analysis
+# Waterfall Spectrogram
 
-Signal bandwidth measurement
-
-Modulation observation
-
-Waterfall Spectrogram
-
-The application also displays a waterfall spectrogram showing frequency changes over time.
+The application also displays a **waterfall spectrogram** showing frequency changes over time.
 
 Benefits
 
-Time-frequency analysis
+* Time-frequency analysis
+* Visualization of modulation effects
+* Dynamic spectrum monitoring
 
-Visualization of modulation effects
+---
 
-Dynamic spectrum monitoring
+# Measurement Tools
 
-Measurement Tools
+The instrument automatically calculates
 
-The instrument automatically calculates:
-
-Generated frequency
-
-Reconstructed frequency
-
-Peak-to-Peak voltage
-
-RMS voltage
+* Generated frequency
+* Reconstructed frequency
+* Peak-to-Peak voltage
+* RMS voltage
 
 Cursor measurement tools
 
-Δt (time difference)
+* Δt (time difference)
+* ΔV (voltage difference)
+* Frequency from cursor measurement
 
-ΔV (voltage difference)
+This mimics functionality of professional **Digital Storage Oscilloscopes (DSO)**.
 
-Frequency from cursor measurement
+---
 
-This mimics functionality of professional Digital Storage Oscilloscopes (DSO).
+# Graphical Interface
 
-Graphical Interface
+The GUI is built using
 
-The GUI is built using:
-
-PyQt5
-
-PyQtGraph
+* PyQt5
+* PyQtGraph
 
 Displayed panels
 
-Generated Signal
+1. Generated Signal
+2. Observed Signal
+3. Reconstructed Signal
+4. FFT Spectrum
+5. Waterfall Spectrogram
 
-Observed Signal
+---
 
-Reconstructed Signal
+# Hardware Required
 
-FFT Spectrum
+* Arduino Uno / compatible board
+* PC or Laptop
+* Audio cable (PC output to circuit)
+* Signal conditioning circuit
+* Op-amp amplifier (optional)
+* Protection circuit (clamp diodes)
 
-Waterfall Spectrogram
+Optional components
 
-Hardware Required
+* NE5532 amplifier
+* Voltage divider
+* Low pass filter
 
-Arduino Uno / compatible board
+---
 
-PC / Laptop
+# Software Requirements
 
-Audio cable (PC output to circuit)
-
-Signal conditioning circuit
-
-Op-amp amplifier (optional)
-
-Protection circuit (clamp diodes)
-
-Optional
-
-NE5532 amplifier
-
-Voltage divider
-
-Low pass filter
-
-Software Requirements
-
-Install dependencies:
+Install dependencies
 
 pip install numpy scipy pyqt5 pyqtgraph sounddevice pyserial
-How It Works
 
-Python generates a waveform.
+---
 
-The waveform is played through the PC audio output.
+# How It Works
 
-Arduino samples the signal using its ADC.
+1. Python generates a waveform
+2. The waveform is played through the **PC audio output**
+3. Arduino samples the signal using its **ADC**
+4. Samples are sent to Python through **serial communication**
+5. Python reconstructs the waveform using DSP
+6. The GUI displays the signals and spectrum
 
-Samples are sent to Python through serial communication.
+---
 
-Python reconstructs the waveform using DSP.
+# Educational Value
 
-The GUI displays:
+This project demonstrates concepts from
 
-Generated signal
+* Digital Signal Processing
+* Sampling Theory
+* Signal Reconstruction
+* Communication Systems
+* Fourier Analysis
+* Embedded Systems
 
-Observed signal
+It can act as a **low-cost virtual electronics lab**.
 
-Reconstructed signal
+---
 
-FFT spectrum
+# Future Improvements
 
-Waterfall spectrogram
+Possible upgrades
 
-Educational Value
+* Trigger modes
+* Automatic scaling
+* Bode plot analyzer
+* Logic analyzer mode
+* Network signal streaming
+* Higher sampling hardware (ESP32)
 
-This project demonstrates concepts from:
+---
 
-Digital Signal Processing
+# Author
 
-Sampling Theory
-
-Signal Reconstruction
-
-Communication Systems
-
-Fourier Analysis
-
-Embedded Systems
-
-It can act as a low-cost virtual electronics lab.
-
-Advantages Over Basic DIY Oscilloscopes
-
-Real-time FFT analysis
-
-Spectrogram visualization
-
-Built-in signal generator
-
-Digital modulation experiments
-
-Cursor measurement tools
-
-Signal reconstruction algorithms
-
-Future Improvements
-
-Possible upgrades:
-
-Trigger modes
-
-Automatic scaling
-
-Bode plot analyzer
-
-Logic analyzer mode
-
-Network signal streaming
-
-Higher sampling hardware (ESP32)
-
-Author
-
-Developed as an electronics and signal processing project demonstrating how software and low-cost hardware can emulate laboratory instruments.
+Developed as an **electronics and signal processing project** demonstrating how software and low-cost hardware can emulate laboratory instruments.
